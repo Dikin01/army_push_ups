@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Случайный звук</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="status">Упор лежа принять</h1>
+
+    <audio id="audio" preload="auto" style="display: none">
+      Ваш браузер не поддерживает элемент audio.
+    </audio>
+
+    <script>
+      const sounds = [
+        {
+          path: "Раз.m4a",
+          title: "Раз",
+          frequency: 5
+        },
+        {
+          path: "Полтора.m4a",
+          title: "Полтора",
+          frequency: 3
+        },
+        {
+          path: "Держим, держим.m4a",
+          title: "Держим, держим",
+          frequency: 3
+        },
+        {
+          path: "Скажите спасибо товарищу.m4a",
+          title: "Скажите спасибо товарищу",
+          frequency: 1
+        },
+        {
+          path: "Два.m4a",
+          title: "Два",
+          frequency: 5
+        },
+      ];
+
+      const audioElement = document.getElementById("audio");
+      const statusElement = document.getElementById("status");
+
+      function getRandomSound() {
+        const totalFrequency = sounds.reduce((sum, {frequency}) => sum + frequency, 0);
+        const randomValue = Math.random() * totalFrequency;
+
+        let cumulativeFrequency = 0;        
+        for (let i = 0; i < sounds.length; i++) {
+            cumulativeFrequency += sounds[i].frequency;
+            if (randomValue < cumulativeFrequency) {
+                return sounds[i];
+            }
+        }
+      }
+
+      function playRandomSound() {
+        const sound = getRandomSound()
+
+        audioElement.src = sound.path;
+        audioElement.load();
+        audioElement.play();
+
+        statusElement.textContent = ` ${sound.title}`;
+      }
+
+      function startPlayingSounds() {
+        const randomDelay = Math.floor(Math.random() * 3) + 2.5;
+
+        setTimeout(() => {
+          playRandomSound();
+          startPlayingSounds();
+        }, randomDelay * 1000);
+      }
+
+      startPlayingSounds();
+    </script>
+  </body>
+</html>
