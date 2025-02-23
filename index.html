@@ -10,6 +10,18 @@
         text-align: center;
         padding-top: 50px;
       }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
     </style>
   </head>
   <body>
@@ -19,32 +31,34 @@
       Ваш браузер не поддерживает элемент audio.
     </audio>
 
+    <button>Добавить озвучку</button>
+
     <script>
       const sounds = [
         {
           path: "Раз.m4a",
           title: "Раз",
-          frequency: 5
+          frequency: 5,
         },
         {
           path: "Полтора.m4a",
           title: "Полтора",
-          frequency: 3
+          frequency: 3,
         },
         {
           path: "Держим, держим.m4a",
           title: "Держим, держим",
-          frequency: 3
+          frequency: 3,
         },
         {
           path: "Скажите спасибо товарищу.m4a",
           title: "Скажите спасибо товарищу",
-          frequency: 1
+          frequency: 1,
         },
         {
           path: "Два.m4a",
           title: "Два",
-          frequency: 5
+          frequency: 5,
         },
       ];
 
@@ -52,20 +66,23 @@
       const statusElement = document.getElementById("status");
 
       function getRandomSound() {
-        const totalFrequency = sounds.reduce((sum, {frequency}) => sum + frequency, 0);
+        const totalFrequency = sounds.reduce(
+          (sum, { frequency }) => sum + frequency,
+          0
+        );
         const randomValue = Math.random() * totalFrequency;
 
-        let cumulativeFrequency = 0;        
+        let cumulativeFrequency = 0;
         for (let i = 0; i < sounds.length; i++) {
-            cumulativeFrequency += sounds[i].frequency;
-            if (randomValue < cumulativeFrequency) {
-                return sounds[i];
-            }
+          cumulativeFrequency += sounds[i].frequency;
+          if (randomValue < cumulativeFrequency) {
+            return sounds[i];
+          }
         }
       }
 
       function playRandomSound() {
-        const sound = getRandomSound()
+        const sound = getRandomSound();
 
         audioElement.src = sound.path;
         audioElement.load();
